@@ -11,8 +11,8 @@ public class UserResponseDTO {
     private @Getter @Setter String email;
     private @Getter @Setter String username;
 
-    public UserResponseDTO(String name, String email, String username) {
-        this.id = UUID.randomUUID();
+    public UserResponseDTO(UUID id, String name, String email, String username) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.username = username;
