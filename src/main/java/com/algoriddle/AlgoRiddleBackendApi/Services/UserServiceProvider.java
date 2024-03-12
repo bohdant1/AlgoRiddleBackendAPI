@@ -20,6 +20,9 @@ public class UserServiceProvider implements UserService {
     @Override
     public UserResponseDTO getUserByEmail(String email) {
         AppUser user = this.usersRepo.findAppUserByEmail(email);
-        return new UserResponseDTO(user.ID , user.name, user.email, user.username);
+        if(user!=null){
+            return new UserResponseDTO(user.ID , user.name, user.email, user.username);
+        }
+        else return null;
     }
 }

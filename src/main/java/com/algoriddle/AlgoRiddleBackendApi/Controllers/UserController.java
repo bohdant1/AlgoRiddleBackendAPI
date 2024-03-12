@@ -18,6 +18,10 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<UserResponseDTO> getUserByEmail(@RequestParam("email") String email) {
-        return ResponseEntity.ok().body(users.getUserByEmail(email));
+        UserResponseDTO dto = users.getUserByEmail(email);
+        if(dto!=null){
+            return ResponseEntity.ok().body(dto);
+        }
+        else return ResponseEntity.notFound().build();
     }
 }
