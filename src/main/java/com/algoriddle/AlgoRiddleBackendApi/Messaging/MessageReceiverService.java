@@ -1,38 +1,26 @@
 package com.algoriddle.AlgoRiddleBackendApi.Messaging;
 
-import com.azure.messaging.servicebus.ServiceBusReceiverClient;
-import com.azure.messaging.servicebus.ServiceBusProcessorClient;
-import com.azure.messaging.servicebus.ServiceBusClientBuilder;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 
-@Service
-public class MessageReceiverService {
+@SpringBootApplication
+@EnableJms
+public class MessageReceiverService  {
+    private static final String QUEUE_NAME = "userregistrationqueue";
 
-    private final ServiceBusProcessorClient processorClient;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
-    public MessageReceiverService(@Value("${azure.servicebus.connection-string}") String connectionString,
-                                  @Value("${azure.servicebus.queue-name}") String queueName) {
-        this.processorClient = new ServiceBusClientBuilder()
-                .connectionString(connectionString)
-                .processor()
-                .queueName(queueName)
-                .processMessage(context -> {
-                    // Process received message here
-                    System.out.printf("Received message: %s%n", context.getMessage().getBody().toString());
-                })
-                .processError(errorContext -> {
-                    // Handle any errors that occur during message processing
-                    System.err.printf("Error occurred while processing message: %s%n", errorContext.getException());
-                })
-                .buildProcessorClient();
+    @JmsListener(destination = QUEUE_NAME, containerFactory = "jmsListenerContainerFactory")
+    public void receiveMessage(String message) {
+        System.out.println(message);
     }
 
-    public void startReceivingMessages() {
-        processorClient.start();
-    }
-
-    public void stopReceivingMessages() {
-        processorClient.close();
-    }
 }
