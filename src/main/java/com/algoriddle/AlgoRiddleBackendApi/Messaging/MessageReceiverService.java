@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 
+
 @SpringBootApplication
 @EnableJms
 public class MessageReceiverService  {
@@ -22,5 +23,7 @@ public class MessageReceiverService  {
     public void receiveMessage(String message) {
         System.out.println(message);
     }
+
+
 
 }
