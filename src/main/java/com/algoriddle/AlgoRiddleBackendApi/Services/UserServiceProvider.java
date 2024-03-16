@@ -1,6 +1,7 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
 import com.algoriddle.AlgoRiddleBackendApi.Converters.UserConverter;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DataJPA.UserDataJPA;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
@@ -17,7 +18,7 @@ public class UserServiceProvider implements UserService {
     public UserServiceProvider(UserDataJPA usersRepo, UserConverter userConverter) {
         this.usersRepo = usersRepo;
         this.userConverter  = userConverter;
-        this.usersRepo.save(new AppUser("bohdan tymofieienko", "bohdan234", "btimofeenko@gmail.com"));
+        this.usersRepo.save(new AppUser( "bohdan234", "btimofeenko@gmail.com"));
     }
 
     @Override
@@ -26,6 +27,17 @@ public class UserServiceProvider implements UserService {
         if(user!=null){
             UserResponseDTO dto = this.userConverter.EntityToDTO(user);
             return dto;
+        }
+        else return null;
+    }
+
+    @Override
+    public UserResponseDTO createUser(UserRequestDTO userDTO) {
+        AppUser user = this.userConverter.DTOtoEntity(userDTO);
+        if(user!=null){
+            this.usersRepo.save(user);
+            UserResponseDTO responseDTO = this.getUserByEmail(user.email);
+            return responseDTO;
         }
         else return null;
     }
