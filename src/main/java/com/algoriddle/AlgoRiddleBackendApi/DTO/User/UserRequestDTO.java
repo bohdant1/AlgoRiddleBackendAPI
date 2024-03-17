@@ -1,19 +1,18 @@
 package com.algoriddle.AlgoRiddleBackendApi.DTO.User;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-public class UserResponseDTO {
-    private @Getter @Setter UUID id;
+public class UserRequestDTO  implements Serializable {
     private @Getter @Setter String email;
     private @Getter @Setter String username;
 
-    public UserResponseDTO(UUID id, String email, String username) {
-        this.id = id;
+    public UserRequestDTO(String email, String username) {
         this.email = email;
         this.username = username;
     }
 
-    public UserResponseDTO() {}
+    public UserRequestDTO() {}
 }

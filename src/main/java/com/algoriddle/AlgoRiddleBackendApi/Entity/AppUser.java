@@ -14,14 +14,12 @@ public class AppUser {
     @Column(name = "User_ID")
     @GeneratedValue(strategy = GenerationType.UUID)
     public @Getter @Setter UUID ID;
-    public @Getter @Setter String name;
     public @Getter @Setter String username;
     public @Getter @Setter String email;
 
     protected AppUser() {}
 
-    public AppUser(String name, String username, String email) {
-        this.name = name;
+    public AppUser( String username, String email) {
         this.username = username;
         this.email = email;
     }
