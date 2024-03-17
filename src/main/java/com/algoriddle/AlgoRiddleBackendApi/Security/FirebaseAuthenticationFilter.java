@@ -31,7 +31,7 @@ public class FirebaseAuthenticationFilter implements Filter{
 //            return ;
 //        }
 
-        String idToken = httpRequest.getHeader("Authorization");
+        String idToken = extractTokenFromHeader(httpRequest.getHeader("Authorization"));
         if (idToken != null) {
             try {
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -45,6 +45,13 @@ public class FirebaseAuthenticationFilter implements Filter{
         } else {
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+    }
+
+    private String extractTokenFromHeader(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null; // or handle the absence of token in your application logic
     }
 
 }
