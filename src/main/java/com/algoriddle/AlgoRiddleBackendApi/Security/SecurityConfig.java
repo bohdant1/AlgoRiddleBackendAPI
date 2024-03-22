@@ -18,7 +18,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Configure authorization
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/**", "/error").permitAll() // Permit all requests to these endpoints
+                        .requestMatchers(
+                                "/api/**",
+                                "/error",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**"
+                                ).permitAll() // Permit all requests to these endpoints
                         .anyRequest().authenticated() // Require authentication for any other request
                 );
 
