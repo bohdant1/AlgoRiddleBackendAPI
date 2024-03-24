@@ -1,14 +1,14 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
-import com.algoriddle.AlgoRiddleBackendApi.Access.Role;
+
 import com.algoriddle.AlgoRiddleBackendApi.Converters.UserConverter;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
-import com.algoriddle.AlgoRiddleBackendApi.DataJPA.UserDataJPA;
+
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
