@@ -1,11 +1,15 @@
 package com.algoriddle.AlgoRiddleBackendApi.Controllers;
 
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
+import com.algoriddle.AlgoRiddleBackendApi.Security.Model.FirebaseAuthenticationToken;
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserService;
+import com.google.firebase.auth.FirebaseToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +31,7 @@ public class UserController {
             return ResponseEntity.ok().body(dto);
         }
         else{
-            logger.info("FAILED GET User By Email " + email);
+            logger.warn("FAILED GET User By Email " + email);
             return ResponseEntity.notFound().build();
         }
     }
