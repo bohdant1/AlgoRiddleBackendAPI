@@ -31,7 +31,7 @@ public class UserController {
             return ResponseEntity.ok().body(dto);
         }
         else{
-            logger.info("FAILED GET User By Email " + email);
+            logger.warn("FAILED GET User By Email " + email);
             return ResponseEntity.notFound().build();
         }
     }

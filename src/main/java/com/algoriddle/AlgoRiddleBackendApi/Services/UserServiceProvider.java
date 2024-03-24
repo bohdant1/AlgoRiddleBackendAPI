@@ -21,7 +21,6 @@ public class UserServiceProvider implements UserService {
     public UserServiceProvider(UserRepository usersRepo, UserConverter userConverter) {
         this.usersRepo = usersRepo;
         this.userConverter  = userConverter;
-        this.usersRepo.save(new AppUser( "bohdan234", "btimofeenko@gmail.com", Role.USER));
     }
 
     @Override
