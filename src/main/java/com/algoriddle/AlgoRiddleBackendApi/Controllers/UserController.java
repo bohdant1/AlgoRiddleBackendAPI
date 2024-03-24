@@ -1,6 +1,7 @@
 package com.algoriddle.AlgoRiddleBackendApi.Controllers;
 
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
+import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
 import com.algoriddle.AlgoRiddleBackendApi.Security.Model.FirebaseAuthenticationToken;
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserService;
 import com.google.firebase.auth.FirebaseToken;
@@ -26,7 +27,8 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<UserResponseDTO> getUserByEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName(); // Get the email of the authenticated user
+        AppUser user = (AppUser) authentication.getPrincipal();
+        String email = user.getEmail(); // Get the email of the authenticated user
 
         UserResponseDTO dto = users.getUserByEmail(email);
         if(dto != null) {
