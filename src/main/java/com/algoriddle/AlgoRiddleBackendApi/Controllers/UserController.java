@@ -24,13 +24,15 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<UserResponseDTO> getUserByEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UserResponseDTO> getUserByEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // Get the email of the authenticated user
+
         UserResponseDTO dto = users.getUserByEmail(email);
-        if(dto!=null){
+        if(dto != null) {
             logger.info("SUCCESS GET User By Email " + email);
             return ResponseEntity.ok().body(dto);
-        }
-        else{
+        } else {
             logger.warn("FAILED GET User By Email " + email);
             return ResponseEntity.notFound().build();
         }
