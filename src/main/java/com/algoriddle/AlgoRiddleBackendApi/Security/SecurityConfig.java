@@ -1,5 +1,6 @@
 package com.algoriddle.AlgoRiddleBackendApi.Security;
 
+import com.algoriddle.AlgoRiddleBackendApi.Access.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +34,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**"
                         )
-                        .permitAll() // Permit all requests to these endpoints
+                        .permitAll()
+//                        .requestMatchers("/api/users/**").hasAnyRole(Role.ADMIN.name())// Permit all requests to these endpoints
                         .anyRequest()
                         .authenticated() // Require authentication for any other request
                 )
