@@ -1,29 +1,31 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
+
 import com.algoriddle.AlgoRiddleBackendApi.Converters.UserConverter;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
-import com.algoriddle.AlgoRiddleBackendApi.DataJPA.UserDataJPA;
+
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
+import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service @Transactional
 public class UserServiceProvider implements UserService {
-    private UserDataJPA usersRepo;
-    private UserConverter userConverter;
+    private final UserRepository usersRepo;
+    private final UserConverter userConverter;
 
     @Autowired
-    public UserServiceProvider(UserDataJPA usersRepo, UserConverter userConverter) {
+    public UserServiceProvider(UserRepository usersRepo, UserConverter userConverter) {
         this.usersRepo = usersRepo;
         this.userConverter  = userConverter;
-        this.usersRepo.save(new AppUser( "bohdan234", "btimofeenko@gmail.com"));
     }
 
     @Override
     public UserResponseDTO getUserByEmail(String email) {
-        AppUser user = this.usersRepo.findAppUserByEmail(email);
+        AppUser user = this.usersRepo.findAppUserByEmail(email).orElse(null);
         if(user!=null){
             UserResponseDTO dto = this.userConverter.EntityToDTO(user);
             return dto;
