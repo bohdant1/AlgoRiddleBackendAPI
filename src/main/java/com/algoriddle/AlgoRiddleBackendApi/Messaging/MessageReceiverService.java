@@ -6,9 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.checkerframework.framework.qual.IgnoreInWholeProgramInference;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.EnableJms;
 
 import org.springframework.jms.annotation.JmsListener;
@@ -18,6 +20,7 @@ import org.springframework.jms.core.JmsTemplate;
 
 @SpringBootApplication
 @EnableJms
+@Profile("!test")
 public class MessageReceiverService  {
     private static final String QUEUE_NAME = "userregistrationqueue";
 
