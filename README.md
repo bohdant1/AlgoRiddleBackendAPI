@@ -39,7 +39,7 @@ This command will build the Docker images for the application and its dependenci
 
 ### 6. Access the API Documentation
 
-<a href="https://ibb.co/Y7sfp7N"><img src="https://i.ibb.co/MD0PMDg/Screenshot-2024-03-29-at-18-05-02.png" alt="Screenshot-2024-03-29-at-18-05-02" border="0" /></a>
+<img src="https://i.imgur.com/ri0ZBrG.png" class="center"/>
 
 Once the application is running, you can access Swagger at `http://localhost:8080/swagger-ui/index.html`.
 
