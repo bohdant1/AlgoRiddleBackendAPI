@@ -9,19 +9,15 @@ import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 import jakarta.transaction.Transactional;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service @Transactional
+@AllArgsConstructor
 public class UserServiceProvider implements UserService {
     private final UserRepository usersRepo;
     private final UserConverter userConverter;
-
-    @Autowired
-    public UserServiceProvider(UserRepository usersRepo, UserConverter userConverter) {
-        this.usersRepo = usersRepo;
-        this.userConverter  = userConverter;
-    }
 
     @Override
     public UserResponseDTO getUserByEmail(String email) {
