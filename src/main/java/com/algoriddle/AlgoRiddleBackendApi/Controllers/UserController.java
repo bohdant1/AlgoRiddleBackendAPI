@@ -2,9 +2,7 @@ package com.algoriddle.AlgoRiddleBackendApi.Controllers;
 
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
-import com.algoriddle.AlgoRiddleBackendApi.Security.Model.FirebaseAuthenticationToken;
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserService;
-import com.google.firebase.auth.FirebaseToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
