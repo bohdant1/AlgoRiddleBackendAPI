@@ -1,6 +1,6 @@
 # AlgoRiddle Backend API
 
-Welcome to AlgoRiddle! This repository contains the backend API for AlgoRiddle, a platform for practicing algorithmic challenges. This backend is built using Spring Boot, Gradle, Spring Security with Firebase Authentication, and utilizes testing with JUnit and Mockito. It's dockerized for easy deployment using Docker and Docker Compose.
+Welcome to AlgoRiddle! This repository contains the backend API for AlgoRiddle, a platform for practicing algorithmic challenges inspired by LeetCode. This backend is built using Spring Boot, Gradle, Spring Security with Firebase Authentication, and utilizes testing with JUnit and Mockito. It's dockerized for easy deployment using Docker and Docker Compose.
 
 ## Prerequisites
 
