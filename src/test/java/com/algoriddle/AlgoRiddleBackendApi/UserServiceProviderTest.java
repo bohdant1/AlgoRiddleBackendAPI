@@ -2,14 +2,13 @@ package com.algoriddle.AlgoRiddleBackendApi;
 
 import com.algoriddle.AlgoRiddleBackendApi.Access.Role;
 import com.algoriddle.AlgoRiddleBackendApi.Converters.UserConverter;
+import com.algoriddle.AlgoRiddleBackendApi.Converters.UserMapper;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserServiceProvider;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,16 +20,14 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 @EnableAutoConfiguration(exclude= SecurityAutoConfiguration.class)
 public class UserServiceProviderTest {
 
@@ -38,7 +35,7 @@ public class UserServiceProviderTest {
     private UserRepository userRepository;
 
     @Spy
-    private UserConverter userConverter;
+    UserConverter userConverter = new UserMapper();
 
     @InjectMocks
     private UserServiceProvider userServiceProvider;
@@ -60,30 +57,28 @@ public class UserServiceProviderTest {
         UserResponseDTO actualResponse = userServiceProvider.getUserByEmail(email);
 
         // Assertions
-        assertEquals(expectedResponse, actualResponse);
+        assertEquals(expectedResponse.getEmail(), actualResponse.getEmail());
+        assertEquals(expectedResponse.getUsername(), actualResponse.getUsername());
 
     }
 
     @Test
     public void testCreateUser() {
         // Mocking the behavior of UserConverter
-        UserRequestDTO userRequestDTO = new UserRequestDTO();
-        AppUser appUser = new AppUser();
+        UserRequestDTO userRequestDTO = new UserRequestDTO("email@mail.com","username", Role.USER);
+        AppUser appUser = new AppUser("username", "email@mail.com", Role.USER);
         when(userConverter.DTOtoEntity(userRequestDTO)).thenReturn(appUser);
 
         // Mocking the behavior of UserRepository
-        String email = "test@example.com";
         when(userRepository.save(appUser)).thenReturn(appUser);
-        when(userRepository.findAppUserByEmail(email)).thenReturn(Optional.of(appUser));
-
-        // Mocking the behavior of UserConverter
-        UserResponseDTO expectedResponse = new UserResponseDTO();
-        when(userConverter.EntityToDTO(appUser)).thenReturn(expectedResponse);
+        when(userRepository.findAppUserByEmail("email@mail.com")).thenReturn(Optional.of(appUser));
 
         // Calling the method under test
         UserResponseDTO actualResponse = userServiceProvider.createUser(userRequestDTO);
 
         // Assertions
-        assertEquals(expectedResponse, actualResponse);
+        assertEquals("username", actualResponse.getUsername());
+        assertEquals("email@mail.com", actualResponse.getEmail());
+        verify(userRepository).save(appUser);
     }
 }
