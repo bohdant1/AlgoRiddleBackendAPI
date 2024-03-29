@@ -35,7 +35,7 @@ Follow these steps to get the backend API up and running:
 
 This command will build the Docker images for the application and its dependencies and start the containers.
 
-`docker-compose up`
+`docker compose up`
 
 ### 6. Access the API Documentation
 
