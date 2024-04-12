@@ -11,6 +11,12 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d algoriddledb -U admin"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
 
   springbootapp:
     build:
@@ -20,6 +26,9 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT: ${SPRING_DATASOURCE_HIKARI_CONNECTIONTIMEOUT}
       SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: ${SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE}
@@ -31,4 +40,3 @@ services:
       SPRING_JMS_SERVICEBUS_PRICING_TIER: ${SPRING_JMS_SERVICEBUS_PRICING_TIER}
       SPRING_JMS_LISTENER_RECEIVE_TIMEOUT: ${SPRING_JMS_LISTENER_RECEIVE_TIMEOUT}
       FIREBASE_CONFIG_JSON: ${FIREBASE_CONFIG_JSON}
-
