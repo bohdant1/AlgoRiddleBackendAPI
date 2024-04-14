@@ -13,26 +13,24 @@ import java.util.stream.Collectors;
 public class UserMapper implements UserConverter{
 
     @Override
-    public UserResponseDTO EntityToDTO(AppUser user) {
+    public UserResponseDTO entityToDTO(AppUser user) {
         ModelMapper mapper = new ModelMapper();
-        UserResponseDTO result = mapper.map(user, UserResponseDTO.class);
-        return result;
+        return mapper.map(user, UserResponseDTO.class);
     }
 
     @Override
-    public AppUser DTOtoEntity(UserRequestDTO user) {
+    public AppUser dtoToEntity(UserRequestDTO user) {
         ModelMapper mapper = new ModelMapper();
-        AppUser result = mapper.map(user, AppUser.class);
-        return result;
+        return mapper.map(user, AppUser.class);
     }
 
     @Override
-    public List<UserResponseDTO> EntityToDTO(List<AppUser> users) {
-        return users.stream().map(x->EntityToDTO(x)).collect(Collectors.toList());
+    public List<UserResponseDTO> entityToDTO(List<AppUser> users) {
+        return users.stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<AppUser> DTOtoEntity(List<UserRequestDTO> users) {
-        return users.stream().map(x->DTOtoEntity(x)).collect(Collectors.toList());
+    public List<AppUser> dtoToEntity(List<UserRequestDTO> users) {
+        return users.stream().map(this::dtoToEntity).collect(Collectors.toList());
     }
 }

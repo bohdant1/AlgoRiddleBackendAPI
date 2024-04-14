@@ -21,17 +21,14 @@ public class UserServiceProvider implements UserService {
 
     @Override
     public UserResponseDTO getUserByEmail(String email) {
-        AppUser user = this.usersRepo.findAppUserByEmail(email).orElse(null);
-        if(user!=null){
-            UserResponseDTO dto = this.userConverter.EntityToDTO(user);
-            return dto;
-        }
-        else return null;
+        return this.usersRepo.findAppUserByEmail(email)
+                .map(this.userConverter::entityToDTO)
+                .orElse(null);
     }
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO userDTO) {
-        AppUser user = this.userConverter.DTOtoEntity(userDTO);
+        AppUser user = this.userConverter.dtoToEntity(userDTO);
         if(user!=null){
             this.usersRepo.save(user);
             UserResponseDTO responseDTO = this.getUserByEmail(user.email);
