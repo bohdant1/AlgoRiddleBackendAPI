@@ -48,9 +48,10 @@ public class QuestionServiceProvider implements QuestionService{
     }
 
     @Override
-    public QuestionResponseDTO updateQuestion(QuestionRequestDTO questionDTO) {
+    public QuestionResponseDTO updateQuestion(QuestionRequestDTO questionDTO, UUID id) {
         // Convert DTO to entity
         Question question = questionConverter.dtoToEntity(questionDTO);
+        question.setID(id);
 
         // Check if the question exists in the database
         Optional<Question> existingQuestionOptional = questionRepo.findById(question.getID());
