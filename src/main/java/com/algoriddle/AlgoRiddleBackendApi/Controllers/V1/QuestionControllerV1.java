@@ -6,6 +6,7 @@ import com.algoriddle.AlgoRiddleBackendApi.Services.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,14 @@ public class QuestionControllerV1 {
         return dto != null ?
                 ResponseEntity.ok().body(dto) :
                 ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<QuestionResponseDTO>> getAllQuestionsPaged(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<QuestionResponseDTO> questionsPage = questions.getAllQuestions(page, size);
+        return ResponseEntity.ok(questionsPage);
     }
 
     @GetMapping

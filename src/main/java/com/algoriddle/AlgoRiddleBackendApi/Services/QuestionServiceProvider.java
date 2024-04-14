@@ -5,11 +5,13 @@ import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.Question;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.QuestionRepository;
-import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,13 @@ public class QuestionServiceProvider implements QuestionService{
         return this.questionRepo.findQuestionByID(id)
                 .map(this.questionConverter::entityToDTO)
                 .orElse(null);
+    }
+
+    @Override
+    public Page<QuestionResponseDTO> getAllQuestions(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Question> questionPage = questionRepo.findAll(pageable);
+        return questionPage.map(questionConverter::entityToDTO);
     }
 
     @Override
