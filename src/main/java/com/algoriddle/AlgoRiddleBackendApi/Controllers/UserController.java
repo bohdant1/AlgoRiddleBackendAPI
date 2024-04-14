@@ -12,7 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://algoriddlewebui.localhost:9080/", "https://ashy-dune-025dc7903.5.azurestaticapps.net/"})
+@CrossOrigin(origins = {"http://localhost:4200",
+                        "http://algoriddlewebui.localhost:9080/",
+                        "https://ashy-dune-025dc7903.5.azurestaticapps.net/",
+                        "https://algoriddle.live"})
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService users;
