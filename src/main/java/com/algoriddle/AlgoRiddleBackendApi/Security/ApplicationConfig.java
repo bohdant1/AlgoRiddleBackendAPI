@@ -1,6 +1,5 @@
 package com.algoriddle.AlgoRiddleBackendApi.Security;
 
-import com.algoriddle.AlgoRiddleBackendApi.DataJPA.UserDataJPA;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

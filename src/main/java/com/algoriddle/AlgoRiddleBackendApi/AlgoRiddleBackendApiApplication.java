@@ -1,8 +1,10 @@
 package com.algoriddle.AlgoRiddleBackendApi;
 
 import com.algoriddle.AlgoRiddleBackendApi.Access.Role;
-import com.algoriddle.AlgoRiddleBackendApi.Controllers.UserController;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
+import com.algoriddle.AlgoRiddleBackendApi.Entity.QuestionDifficulty;
+import com.algoriddle.AlgoRiddleBackendApi.Services.QuestionService;
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +23,26 @@ public class AlgoRiddleBackendApiApplication {
 
 	@Bean
 	public CommandLineRunner commandLinerRunner(
-			UserService service
+			UserService users,
+			QuestionService questions
 	) {
 
 		return args -> {
-			var admin = service.createUser(new UserRequestDTO(
+			var admin = users.createUser(new UserRequestDTO(
 					"btimofeenko@gmail.com",
 					"bohdan234",
 					Role.ADMIN
 			));
 			logger.info("SUCCESS Created new User " + admin.getEmail());
+
+			var question = questions.createQuestion(new QuestionRequestDTO(
+					123456,
+					"Two Sums",
+					"Best description",
+					QuestionDifficulty.EASY
+			));
+
+			logger.info("SUCCESS Created new Question " + question.getID());
 		};
 	}
 

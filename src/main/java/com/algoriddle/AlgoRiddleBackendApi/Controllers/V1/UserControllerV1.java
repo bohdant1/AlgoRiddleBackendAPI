@@ -1,4 +1,4 @@
-package com.algoriddle.AlgoRiddleBackendApi.Controllers;
+package com.algoriddle.AlgoRiddleBackendApi.Controllers.V1;
 
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
                         "http://algoriddlewebui.localhost:9080/",
                         "https://ashy-dune-025dc7903.5.azurestaticapps.net/",
                         "https://algoriddle.live"})
-@RequestMapping("/api/users")
-public class UserController {
+@RequestMapping("/api/v1/users")
+public class UserControllerV1 {
     private final UserService users;
-    Logger logger = LoggerFactory.getLogger(UserController.class);
+    Logger logger = LoggerFactory.getLogger(UserControllerV1.class);
     @Autowired
-    public UserController(UserService users) {
+    public UserControllerV1(UserService users) {
         this.users = users;
     }
 
