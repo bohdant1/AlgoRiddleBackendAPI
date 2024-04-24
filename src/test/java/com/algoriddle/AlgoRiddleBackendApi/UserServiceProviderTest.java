@@ -67,7 +67,7 @@ public class UserServiceProviderTest {
         // Mocking the behavior of UserConverter
         UserRequestDTO userRequestDTO = new UserRequestDTO("email@mail.com","username", Role.USER);
         AppUser appUser = new AppUser("username", "email@mail.com", Role.USER);
-        when(userConverter.DTOtoEntity(userRequestDTO)).thenReturn(appUser);
+        when(userConverter.dtoToEntity(userRequestDTO)).thenReturn(appUser);
 
         // Mocking the behavior of UserRepository
         when(userRepository.save(appUser)).thenReturn(appUser);
