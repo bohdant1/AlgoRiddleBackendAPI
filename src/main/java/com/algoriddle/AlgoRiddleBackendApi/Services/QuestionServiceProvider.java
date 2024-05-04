@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,7 @@ import java.util.UUID;
 @Transactional
 @AllArgsConstructor
 public class QuestionServiceProvider implements QuestionService{
+    private final Logger logger = LoggerFactory.getLogger(QuestionServiceProvider.class);
     private final EntityManager entityManager;
     private final QuestionRepository questionRepo;
     private final QuestionConverter questionConverter;
@@ -53,6 +56,8 @@ public class QuestionServiceProvider implements QuestionService{
     public QuestionResponseDTO createQuestion(QuestionRequestDTO questionDTO) {
         Question question = this.questionConverter.dtoToEntity(questionDTO);
         Question saved = this.questionRepo.save(question);
+
+        logger.info("SUCCESS CREATED NEW QUESTION: DATABASE " + questionDTO.getNumber());
         return this.questionConverter.entityToDTO(saved);
     }
 
