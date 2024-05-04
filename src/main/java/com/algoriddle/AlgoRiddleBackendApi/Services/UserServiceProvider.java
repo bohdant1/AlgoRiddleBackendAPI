@@ -1,6 +1,7 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
 
+import com.algoriddle.AlgoRiddleBackendApi.Access.Role;
 import com.algoriddle.AlgoRiddleBackendApi.AlgoRiddleBackendApiApplication;
 import com.algoriddle.AlgoRiddleBackendApi.Converters.UserConverter;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
@@ -63,6 +64,10 @@ public class UserServiceProvider implements UserService {
         if (firebaseSuccess) {
             // Logic to add user to PostgreSQL database using JPA
             AppUser user = this.userConverter.dtoToEntity(userDTO);
+
+            //SET ROLE TO USER (DEFAULT BEHAVIOUR)
+            user.setRole(Role.USER);
+
             this.usersRepo.save(user);
 
             logger.info("SUCCESS CREATED NEW USER: DATABASE " + userDTO.getEmail());
