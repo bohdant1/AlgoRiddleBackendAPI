@@ -37,7 +37,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**"
                         )
                         .permitAll()
-//                        .requestMatchers("/api/users/**").hasAnyRole(Role.ADMIN.name())// Permit all requests to these endpoints
+                        .requestMatchers("/api/v1/questions/paged")
+                        .permitAll()
+//                      .requestMatchers("/api/users/**").hasAnyRole(Role.ADMIN.name())// Permit all requests to these endpoints
                         .anyRequest()
                         .authenticated() // Require authentication for any other request
                 )
