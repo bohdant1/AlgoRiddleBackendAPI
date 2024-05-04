@@ -40,8 +40,8 @@ public class MessageReceiverService  {
     public void receiveMessage(String message) {
         try {
             UserRequestDTO user = objectMapper.readValue(message, UserRequestDTO.class);
-            userService.createUser(user);
-        } catch (JsonProcessingException e) {
+            userService.createUser(user, true);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
