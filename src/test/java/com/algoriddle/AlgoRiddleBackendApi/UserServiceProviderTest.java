@@ -74,7 +74,7 @@ public class UserServiceProviderTest {
         when(userRepository.findAppUserByEmail("email@mail.com")).thenReturn(Optional.of(appUser));
 
         // Calling the method under test
-        UserResponseDTO actualResponse = userServiceProvider.createUser(userRequestDTO);
+        UserResponseDTO actualResponse = userServiceProvider.createUser(userRequestDTO, false);
 
         // Assertions
         assertEquals("username", actualResponse.getUsername());

@@ -32,8 +32,7 @@ public class AlgoRiddleBackendApiApplication {
 					"btimofeenko@gmail.com",
 					"bohdan234",
 					Role.ADMIN
-			));
-			logger.info("SUCCESS Created new User " + admin.getEmail());
+			), false);
 
 			var question = questions.createQuestion(new QuestionRequestDTO(
 					123456,
@@ -41,8 +40,6 @@ public class AlgoRiddleBackendApiApplication {
 					"Best description",
 					QuestionDifficulty.EASY
 			));
-
-			logger.info("SUCCESS Created new Question " + question.getID());
 		};
 	}
 

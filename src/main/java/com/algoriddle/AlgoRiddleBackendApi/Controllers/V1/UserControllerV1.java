@@ -1,8 +1,11 @@
 package com.algoriddle.AlgoRiddleBackendApi.Controllers.V1;
 
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionRequestDTO;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.AppUser;
 import com.algoriddle.AlgoRiddleBackendApi.Services.UserService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +42,13 @@ public class UserControllerV1 {
             logger.warn("FAILED GET User By Email " + email);
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping()
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
+        UserResponseDTO response = this.users.createUser(userDTO, true);
+        return response != null ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.notFound().build();
     }
 }
