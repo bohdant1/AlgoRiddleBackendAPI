@@ -3,9 +3,11 @@ package com.algoriddle.AlgoRiddleBackendApi.Converters;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.Question;
+import com.algoriddle.AlgoRiddleBackendApi.Entity.TestCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
