@@ -57,7 +57,7 @@ public class QuestionServiceProvider implements QuestionService{
         Question question = this.questionConverter.dtoToEntity(questionDTO);
         Question saved = this.questionRepo.save(question);
 
-        logger.info("SUCCESS CREATED NEW QUESTION: DATABASE " + questionDTO.getNumber());
+        logger.info("SUCCESS CREATED NEW QUESTION: DATABASE " + saved.getID());
         return this.questionConverter.entityToDTO(saved);
     }
 

@@ -26,15 +26,16 @@ public class Question {
     @JoinColumn(name = "question_id")
     public Set<TestCase> testCases;
 
-    public void addTestCase(TestCase testCase){
-        testCases.add(testCase);
-    }
-
     public Question(Integer number, String name, String description, QuestionDifficulty difficulty) {
         this.number = number;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.testCases = new HashSet<TestCase>();
+    }
+
+    @Override
+    public String toString(){
+        return this.description;
     }
 }

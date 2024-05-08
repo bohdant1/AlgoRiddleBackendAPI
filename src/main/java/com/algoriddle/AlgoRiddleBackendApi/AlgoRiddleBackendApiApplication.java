@@ -39,12 +39,13 @@ public class AlgoRiddleBackendApiApplication {
 			), false);
 
 			Set<TestCase> testCaseSet = new HashSet<>();
-			testCaseSet.add(TestCase.builder().name("testcase1").code("testcase1 code bla bla bla").build());
-			testCaseSet.add(TestCase.builder().name("testcase2").code("testcase2 code bla bla bla").build());
+			testCaseSet.add(TestCase.builder().name("testcase1").code("def test1():\n\tresult = greet(\"Bohdan\")\n\texpected = 'Hello Bohdan'\n\tif result == expected: \n\t\treturn True\n\treturn (False, result)").build());
+			testCaseSet.add(TestCase.builder().name("testcase2").code("def test2():\n\tresult = greet(\"John\")\n\texpected = 'Hello John1'\n\tif result == expected: \n\t\treturn True\n\treturn (False, result)").build());
+			testCaseSet.add(TestCase.builder().name("testcase3").code("def test3():\n\tresult = greet(\"Maria\")\n\texpected = 'Hello Maria'\n\tif result == expected: \n\t\treturn True\n\treturn (False, result)").build());
 
 			QuestionRequestDTO questionRequestDTO = new QuestionRequestDTO(
 					123456,
-					"Two Sums",
+					"Greetings",
 					"Best description",
 					QuestionDifficulty.EASY,
 					testCaseSet
