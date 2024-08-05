@@ -23,7 +23,7 @@ public class SubmissionServiceProvider implements SubmissionService{
         if (containsPrintPhrase(submissionRequestDTO.sourceCode))
             return null;
         //2. Generate an executable
-        generateExecutable(submissionRequestDTO);
+        String executable = generateExecutable(submissionRequestDTO);
 
         //3. Send the executable to judge0
 
