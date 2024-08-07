@@ -12,18 +12,20 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class SubmissionServiceProvider implements SubmissionService{
     private final QuestionRepository questionRepo;
 
     @Override
-    public TestCaseResponseDTO submitQuestion(SubmissionRequestDTO submissionRequestDTO) {
-        //1. Check for print keywords in the code
-        if (containsPrintPhrase(submissionRequestDTO.sourceCode))
-            return null;
+    public String submitQuestion(SubmissionRequestDTO submissionRequestDTO) {
+        //1. Generate a unique submission id
+        UUID submissionID = UUID.randomUUID();
+
         //2. Generate an executable
-        String executable = generateExecutable(submissionRequestDTO);
+        String executable = generateExecutable(submissionRequestDTO, submissionID);
 
         //3. Send the executable to judge0
 
@@ -31,14 +33,16 @@ public class SubmissionServiceProvider implements SubmissionService{
 
         //5. Interpret the result
 
-        //6. Return the TestCaseResponseDTO
-        return null;
+        //6. Persist the result
+
+        //7. Return the TestCaseResponseDTO
+        return executable;
 
 
 
     }
 
-    private String generateExecutable(SubmissionRequestDTO submissionRequestDTO){
+    private String generateExecutable(SubmissionRequestDTO submissionRequestDTO, UUID submissionID){
         Question question = this.questionRepo
                 .findQuestionByID(submissionRequestDTO.getQuestionID())
                 .orElse(null);
@@ -51,28 +55,26 @@ public class SubmissionServiceProvider implements SubmissionService{
                     .append("\n");
         }
 
+        String submissionIdFormated = submissionID.toString().replace("-", "");
+        String evaluationDictName = "evaluationDict"+submissionIdFormated;
+
         // Add the evaluation in the bottom. Run every test case.
-        StringBuilder evaluation = new StringBuilder();
+        StringBuilder evaluation = new StringBuilder(evaluationDictName+"={}\n");
 
         for(TestCase testCase : question.testCases){
-            evaluation.append("print(")
-                    .append("\""+testCase.getID()+"\"")
-                    .append(",")
-                    .append("\""+testCase.getMethodName()+"\"")
-                    .append(",")
-                    .append(testCase.getMethodName())
-                    .append("())")
+            evaluation.append(evaluationDictName+"[\""+testCase.getID()+"\"]")
+                    .append("=")
+                    .append(testCase.getMethodName()+"()")
                     .append("\n");
         }
+
+        evaluation.append("print(\"").append(evaluationDictName).append("\",").append(evaluationDictName).append(")");
+
 
         executable.append(evaluation);
 
         // Return the full executable
         return executable.toString();
-    }
-
-    private static boolean containsPrintPhrase(String s) {
-        return s.contains("print(");
     }
 
 

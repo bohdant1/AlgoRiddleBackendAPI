@@ -4,5 +4,5 @@ import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.TestCase.TestCaseResponseDTO;
 
 public interface SubmissionService {
-    public TestCaseResponseDTO submitQuestion(SubmissionRequestDTO submissionRequestDTO);
+    public String submitQuestion(SubmissionRequestDTO submissionRequestDTO);
 }
