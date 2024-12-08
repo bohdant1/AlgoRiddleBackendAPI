@@ -1,11 +1,4 @@
-package com.algoriddle.AlgoRiddleBackendApi.Request.Model;
-
-
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.algoriddle.AlgoRiddleBackendApi.DTO.Judge;
 
 
 public class SubmissionRequestModel {

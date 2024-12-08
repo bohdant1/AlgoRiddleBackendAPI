@@ -1,19 +1,13 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
-import com.algoriddle.AlgoRiddleBackendApi.Converters.QuestionConverter;
-import com.algoriddle.AlgoRiddleBackendApi.DTO.Question.QuestionResponseDTO;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionResponseModel;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionRequestDTO;
-import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionResponseDTO;
-import com.algoriddle.AlgoRiddleBackendApi.DTO.TestCase.TestCaseResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.Question;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.TestCase;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.QuestionRepository;
-import com.algoriddle.AlgoRiddleBackendApi.Request.Model.SubmissionRequestModel;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionRequestModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -56,11 +50,11 @@ public class SubmissionServiceProvider implements SubmissionService{
         HttpEntity<String> requestEntity = new HttpEntity<>(jsonPayload, headers);
 
         // Send POST request
-        ResponseEntity<String> response = restTemplate.exchange(
+        ResponseEntity<SubmissionResponseModel> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 requestEntity,
-                String.class
+                SubmissionResponseModel.class
         );
 
         //4. Interpret the result
@@ -68,7 +62,7 @@ public class SubmissionServiceProvider implements SubmissionService{
         //5. Persist the result
 
         //6. Return the TestCaseResponseDTO
-        return response.getBody();
+        return response.getBody().getStdout();
     }
 
     private String generateExecutable(SubmissionRequestDTO submissionRequestDTO, UUID submissionID){
