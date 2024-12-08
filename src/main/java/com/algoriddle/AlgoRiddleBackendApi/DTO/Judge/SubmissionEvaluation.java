@@ -8,7 +8,8 @@ import java.util.List;
 
 public record SubmissionEvaluation (
     String id,
-    List<SubmissionEvaluationRecord> testEvaluationRecords
-){}
+    List<SubmissionEvaluationRecord> testEvaluationRecords,
+    String error
+    ){}
 
 
