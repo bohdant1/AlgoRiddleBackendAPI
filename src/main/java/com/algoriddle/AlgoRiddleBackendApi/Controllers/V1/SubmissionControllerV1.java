@@ -4,6 +4,7 @@ import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserResponseDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Services.SubmissionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class SubmissionControllerV1 {
     }
 
     @PostMapping()
-    public ResponseEntity<String> createSubmission(@RequestBody SubmissionRequestDTO submissionRequestDTO) {
+    public ResponseEntity<String> createSubmission(@RequestBody SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
         String result = this.submissionService.submitQuestion(submissionRequestDTO);
         return ResponseEntity.ok().body(result);
     }
