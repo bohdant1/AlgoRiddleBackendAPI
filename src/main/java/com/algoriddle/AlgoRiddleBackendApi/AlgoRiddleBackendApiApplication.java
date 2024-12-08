@@ -39,9 +39,9 @@ public class AlgoRiddleBackendApiApplication {
 			), false);
 
 			Set<TestCase> testCaseSet = new HashSet<>();
-			testCaseSet.add(TestCase.builder().name("testcase1").code("def test1():\n\tresult = greet(\"Bohdan\")\n\texpected = 'Hello Bohdan'\n\tif result == expected: \n\t\treturn (True, result)\n\treturn (False, result)").build());
-			testCaseSet.add(TestCase.builder().name("testcase2").code("def test2():\n\tresult = greet(\"John\")\n\texpected = 'Hello John1'\n\tif result == expected: \n\t\treturn (True, result)\n\treturn (False, result)").build());
-			testCaseSet.add(TestCase.builder().name("testcase3").code("def test3():\n\tresult = greet(\"Maria\")\n\texpected = 'Hello Maria'\n\tif result == expected: \n\t\treturn (True, result)\n\treturn (False, result)").build());
+			testCaseSet.add(TestCase.builder().name("testcase1").code("def test3():\r\n\targument = \"Maria\"\r\n\tresult = greet(argument)\r\n\texpected = 'Hello Maria'\r\n\tif result == expected: \r\n\t\treturn (True, argument, expected, result)\r\n\treturn (False, argument, expected, result)").build());
+			testCaseSet.add(TestCase.builder().name("testcase2").code("def test2():\r\n\targument = \"John\"\r\n\tresult = greet(argument)\r\n\texpected = 'Hello John'\r\n\tif result == expected: \r\n\t\treturn (True, argument, expected, result)\r\n\treturn (False, argument, expected, result)").build());
+			testCaseSet.add(TestCase.builder().name("testcase3").code("def test1():\r\n\targument = \"Bohdan\"\r\n\tresult = greet(\"Bohdan\")\r\n\texpected = 'Hello Bohdan'\r\n\tif result == expected: \r\n\t\treturn (True, argument, expected, result)\r\n\treturn (False, argument, expected, result)").build());
 
 			QuestionRequestDTO questionRequestDTO = new QuestionRequestDTO(
 					123456,

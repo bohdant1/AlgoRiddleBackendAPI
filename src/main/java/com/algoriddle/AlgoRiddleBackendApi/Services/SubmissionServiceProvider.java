@@ -21,7 +21,7 @@ public class SubmissionServiceProvider implements SubmissionService{
     private final QuestionRepository questionRepo;
 
     @Override
-    public String submitQuestion(SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
+    public SubmissionResponseModel submitQuestion(SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
         //1. Generate a unique submission id
         UUID submissionID = UUID.randomUUID();
 
@@ -62,7 +62,7 @@ public class SubmissionServiceProvider implements SubmissionService{
         //5. Persist the result
 
         //6. Return the TestCaseResponseDTO
-        return response.getBody().getStdout();
+        return response.getBody();
     }
 
     private String generateExecutable(SubmissionRequestDTO submissionRequestDTO, UUID submissionID){
