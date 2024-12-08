@@ -38,16 +38,11 @@ public class SubmissionServiceProvider implements SubmissionService{
 
         // Replace four spaces with a tab character
         executable = executable.replaceAll(" {4}", "\t");
-//
-//        // Convert the indented value to a JSON-formatted string
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        String formattedExecutable = gson.toJson(indentedValue);
 
         //3. Send the executable to judge0
 
         RestTemplate restTemplate = new RestTemplate();
-        String url
-                = "http://localhost:2358/submissions/?base64_encoded=false&wait=true";
+        String url = "http://localhost:2358/submissions/?base64_encoded=false&wait=true";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
