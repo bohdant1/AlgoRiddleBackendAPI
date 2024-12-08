@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 public class AppUser implements UserDetails {
     @Id
-    @Column(name = "User_ID")
+    @Column(name = "user_ID")
     @GeneratedValue(strategy = GenerationType.UUID)
     public @Getter @Setter UUID ID;
     public @Getter @Setter String username;

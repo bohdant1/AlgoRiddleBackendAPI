@@ -1,6 +1,7 @@
 package com.algoriddle.AlgoRiddleBackendApi.DTO.Question;
 
 import com.algoriddle.AlgoRiddleBackendApi.Entity.QuestionDifficulty;
+import com.algoriddle.AlgoRiddleBackendApi.Entity.TestCase;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -20,4 +22,5 @@ public class QuestionResponseDTO {
     public @Getter @Setter String name;
     public @Getter @Setter String description;
     public @Getter @Setter QuestionDifficulty difficulty;
+    public @Getter @Setter Set<TestCase> testCases;
 }
