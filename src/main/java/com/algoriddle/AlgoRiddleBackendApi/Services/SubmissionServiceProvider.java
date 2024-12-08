@@ -1,11 +1,14 @@
 package com.algoriddle.AlgoRiddleBackendApi.Services;
 
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionEvaluation;
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionEvaluationRecord;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionResponseModel;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.Question;
 import com.algoriddle.AlgoRiddleBackendApi.Entity.TestCase;
 import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.QuestionRepository;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionRequestModel;
+import com.algoriddle.AlgoRiddleBackendApi.Repositories.JPA.TestCaseRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.*;
@@ -13,15 +16,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
 public class SubmissionServiceProvider implements SubmissionService{
     private final QuestionRepository questionRepo;
+    private final TestCaseRepository testCaseRepository;
 
     @Override
-    public SubmissionResponseModel submitQuestion(SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
+    public SubmissionEvaluation submitQuestion(SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
         //1. Generate a unique submission id
         UUID submissionID = UUID.randomUUID();
 
@@ -58,14 +67,16 @@ public class SubmissionServiceProvider implements SubmissionService{
         );
 
         //4. Interpret the result
+        SubmissionEvaluation evaluation = evaluate(response.getBody());
 
         //5. Persist the result
 
         //6. Return the TestCaseResponseDTO
-        return response.getBody();
+        return evaluation;
     }
 
     private String generateExecutable(SubmissionRequestDTO submissionRequestDTO, UUID submissionID){
+        //TODO Consider null safety
         Question question = this.questionRepo
                 .findQuestionByID(submissionRequestDTO.getQuestionID())
                 .orElse(null);
@@ -98,6 +109,60 @@ public class SubmissionServiceProvider implements SubmissionService{
 
         // Return the full executable
         return executable.toString();
+    }
+
+    public SubmissionEvaluation evaluate(SubmissionResponseModel responseModel) {
+        String stdout = responseModel.getStdout();
+
+        // Extract submission id from the string
+        String submissionId = extractSubmissionId(stdout);
+
+        // Extract all test case data
+        List<SubmissionEvaluationRecord> records = extractRecords(stdout);
+
+        return new SubmissionEvaluation(submissionId, records);
+    }
+
+    private String extractSubmissionId(String stdout) {
+        Pattern pattern = Pattern.compile("evaluationDict([a-f0-9]+)");
+        Matcher matcher = pattern.matcher(stdout);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    private List<SubmissionEvaluationRecord> extractRecords(String stdout) {
+        List<SubmissionEvaluationRecord> records = new ArrayList<>();
+
+        // Regex to capture the patterns of each test case
+        Pattern pattern = Pattern.compile(
+                "'([a-f0-9\\-]+)': \\((\\w+), '([^']*)', '([^']*)', '([^']*)'\\)"
+        );
+        Matcher matcher = pattern.matcher(stdout);
+
+        while (matcher.find()) {
+            String testCaseId = matcher.group(1);
+            Boolean result = Boolean.parseBoolean(matcher.group(2));
+            String argument = matcher.group(3);
+            String expected = matcher.group(4);
+            String actual = matcher.group(5);
+
+            String testCaseName = Objects.requireNonNull(testCaseRepository.findTestCasesByID(UUID.fromString(testCaseId))
+                            .orElse(null))
+                            .getName();
+
+            records.add(new SubmissionEvaluationRecord(
+                    testCaseId,
+                    testCaseName,
+                    result,
+                    argument,
+                    expected,
+                    actual
+            ));
+        }
+
+        return records;
     }
 
 

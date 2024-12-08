@@ -1,5 +1,6 @@
 package com.algoriddle.AlgoRiddleBackendApi.Controllers.V1;
 
+import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionEvaluation;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Judge.SubmissionResponseModel;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.Submission.SubmissionRequestDTO;
 import com.algoriddle.AlgoRiddleBackendApi.DTO.User.UserRequestDTO;
@@ -25,8 +26,8 @@ public class SubmissionControllerV1 {
     }
 
     @PostMapping()
-    public ResponseEntity<SubmissionResponseModel> createSubmission(@RequestBody SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
-        SubmissionResponseModel result = this.submissionService.submitQuestion(submissionRequestDTO);
+    public ResponseEntity<SubmissionEvaluation> createSubmission(@RequestBody SubmissionRequestDTO submissionRequestDTO) throws JsonProcessingException {
+        SubmissionEvaluation result = this.submissionService.submitQuestion(submissionRequestDTO);
         return ResponseEntity.ok().body(result);
     }
 }
