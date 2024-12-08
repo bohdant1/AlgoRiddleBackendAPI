@@ -67,7 +67,7 @@ public class SubmissionServiceProvider implements SubmissionService{
         );
 
         //4. Interpret the result
-        SubmissionEvaluation evaluation = evaluate(response.getBody());
+        SubmissionEvaluation evaluation = evaluate(response.getBody(), submissionID);
 
         //5. Persist the result
 
@@ -111,26 +111,22 @@ public class SubmissionServiceProvider implements SubmissionService{
         return executable.toString();
     }
 
-    public SubmissionEvaluation evaluate(SubmissionResponseModel responseModel) {
-        String stdout = responseModel.getStdout();
+    public SubmissionEvaluation evaluate(SubmissionResponseModel responseModel, UUID submissionId){
+        if(responseModel.getStdout()!=null){
+            return doEvaluate(responseModel.getStdout(), submissionId);
+        } else if (responseModel.getStderr()!=null) {
+            return new SubmissionEvaluation(submissionId.toString(), null, responseModel.getStderr());
+        }
+        return null;
+    }
 
-        // Extract submission id from the string
-        String submissionId = extractSubmissionId(stdout);
-
+    public SubmissionEvaluation doEvaluate(String stdout, UUID submissionId) {
         // Extract all test case data
         List<SubmissionEvaluationRecord> records = extractRecords(stdout);
 
-        return new SubmissionEvaluation(submissionId, records);
+        return new SubmissionEvaluation(submissionId.toString(), records, null);
     }
 
-    private String extractSubmissionId(String stdout) {
-        Pattern pattern = Pattern.compile("evaluationDict([a-f0-9]+)");
-        Matcher matcher = pattern.matcher(stdout);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return "";
-    }
 
     private List<SubmissionEvaluationRecord> extractRecords(String stdout) {
         List<SubmissionEvaluationRecord> records = new ArrayList<>();
