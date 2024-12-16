@@ -14,4 +14,7 @@ class AlgoRiddleBackendApiApplicationTests {
 		Assertions.assertEquals(true,!false);
 	}
 
+	@Test
+	void testHello(){Assertions.assertEquals("a","a");}
+
 }
