@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin' # Options: 'temurin', 'zulu', 'adopt'
-        java-version: '21'     
+        java-version: '21'
 
     # Cache Gradle dependencies
     - name: Cache Gradle dependencies
@@ -39,4 +39,4 @@ jobs:
 
     # Run Gradle Tests
     - name: Run Tests
-      run: ./gradlew test
+      run: ./gradlew test --debug
