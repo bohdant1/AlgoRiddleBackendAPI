@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin' # Options: 'temurin', 'zulu', 'adopt'
-        java-version: '17'     # Adjust based on your project (e.g., 8, 11, 17)
+        java-version: '21'     
 
     # Cache Gradle dependencies
     - name: Cache Gradle dependencies
