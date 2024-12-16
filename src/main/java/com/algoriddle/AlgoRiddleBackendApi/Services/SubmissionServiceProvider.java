@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -79,7 +80,7 @@ public class SubmissionServiceProvider implements SubmissionService{
         //TODO Consider null safety
         Question question = this.questionRepo
                 .findQuestionByID(submissionRequestDTO.getQuestionID())
-                .orElse(null);
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         // Append the (solution) code with all the test cases
         StringBuilder executable = new StringBuilder(submissionRequestDTO.sourceCode + "\n");
